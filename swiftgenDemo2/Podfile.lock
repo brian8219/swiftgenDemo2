@@ -1,0 +1,16 @@
+PODS:
+  - SwiftGen (6.6.1)
+
+DEPENDENCIES:
+  - SwiftGen
+
+SPEC REPOS:
+  trunk:
+    - SwiftGen
+
+SPEC CHECKSUMS:
+  SwiftGen: 787181d7895fa2f5e7313d05de92c387010149c2
+
+PODFILE CHECKSUM: b8987faec40d577ce090ed178a4117a5c7f4bca0
+
+COCOAPODS: 1.11.3

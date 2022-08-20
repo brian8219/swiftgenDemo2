@@ -1,0 +1,71 @@
+{% set assetCounter %}{{""}}{% endset %}
+{% set firstCounter %}{{""}}{% endset %}
+{% set properArray %}{{""}}{% endset %}
+{% set colorArray %}{{""}}{% endset %}
+{% set imageArray %}{{""}}{% endset %}
+1.17
+{#
+
+
+catalogs.first.assets.first.items
+
+
+
+#}
+{% macro appendColor firstCounter colorArray imageArray %}
+
+{% for temp in colorArray|split:"|" %}
+  {% if temp == catalogs.first.assets.first.items[firstCounter.count].name %}
+  {% set firstCounter %}{{firstCounter}}0{% endset %}
+  {% if firstCounter.count <= catalogs.first.first.items.count %} 
+  {% call appendColor firstCounter colorArray imageArray%}
+  {% else %}
+  {{colorArray}}
+  {% endif %} 
+  {% break %}
+  {% endif %}
+  {% if forloop.last %}
+    {% set colorArray %}{{colorArray}}|{{catalogs.first.assets.first.items[firstCounter.count].name}}{% endset %} 
+    {% set firstCounter %}{{firstCounter}}0{% endset %}
+    {% if firstCounter.count <= catalogs.first.assets.first.items.count %} 
+      {% call appendColor firstCounter colorArray imageArray%}
+    {% else %}
+    {{colorArray}}
+    {% endif %} 
+  {% endif %}
+{% endfor %}
+{% endmacro %} 
+{#
+
+
+
+
+
+
+
+#}
+{% macro traverseStyledItem items firstCounter colorArray imageArray %}
+{% for temp in colorArray|split:"|" %}
+{% endfor %}
+  {%call appendColor firstCounter colorArray imageArray%}
+{% endmacro %} 
+{% if catalogs %}
+  {% call traverseStyledItem catalogs.first.assets.first.items firstCounter colorArray imageArray %}
+{% endif %}
+{# {% set tempArrayString %}{{"a|b|c|e"}}{% endset %} #}
+{# {{tempArrayString}} #}
+{# {% macro append toArray item %} #}
+{# {% for temp in toArray|split:"|" %} #}
+  {# {% if temp == item %} #}
+    {# {% break %} #}
+  {# {% endif %} #}
+  {# {% if forloop.last %} #}
+    {# {% set toArray %}{{toArray}}|{{item}}{% endset %} #}
+    {# {{toArray}} #}
+  {# {% endif %} #}
+{# {% endfor %} #}
+{# {% endmacro %} #}
+{# {% call append tempArrayString "g" %} #}
+
+
+

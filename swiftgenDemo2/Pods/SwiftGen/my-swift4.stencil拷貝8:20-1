@@ -1,0 +1,73 @@
+{% set assetCounter %}{{""}}{% endset %}
+{% set properArray %}{{"a"}}{% endset %}
+{% set colorArray %}{{""}}{% endset %}
+{% set imageArray %}{{""}}{% endset %}
+{% macro traverseFolder parentAsset assets assetCounter  colorArray imageArray %}
+{% for item in assets %}
+  {% if item.type == "image" %}
+    enum image {{item.name}}
+  {% elif item.type == "color" %}
+    enum color {{item.name}}
+  {% else %}
+    {% call traverseStyleFolder parentAsset item assetCounter colorArray imageArray  %}
+  {% endif %}
+{% endfor %}
+{% if assetCounter.count < parentAsset.count %}
+  下一圈
+  {% set assetCounter %}{{assetCounter}}0{% endset %}
+  {% call traverseAll parentAsset assetCounter colorArray imageArray  %}
+{% else %}
+  最終圈a
+{% endif %}
+{% endmacro %} 
+{% macro traverseStyleFolder parentAsset assets assetCounter colorArray imageArray %}
+{{item.type}} {{item.name}}
+{% endmacro %} 
+{% macro traverseAll assets assetCounter colorArray imageArray %}
+  {% if assets[assetCounter.count].type == "group" %}
+    {% call traverseFolder assets assets[assetCounter.count].items assetCounter  colorArray imageArray %}
+  {% elif assets[assetCounter.count].type == "image" %}
+    enum {{assets[assetCounter.count].type}} {{assets[assetCounter.count].name}}
+    {% if assetCounter.count < assets.count %}
+      {% set assetCounter %}{{assetCounter}}0{% endset %}
+      {% call traverseAll assets assetCounter colorArray imageArray %}
+    {% else %}
+      最終圈c
+    {% endif %}
+  {% elif assets[assetCounter.count].type == "color" %}
+    enum {{assets[assetCounter.count].type}} {{assets[assetCounter.count].name}}
+    {% if assetCounter.count < assets.count %}
+      {% set assetCounter %}{{assetCounter}}0{% endset %}
+      {% call traverseAll assets assetCounter colorArray imageArray %}
+    {% else %}
+      最終圈d
+    {% endif %}
+  {% else %}
+    {% if assetCounter.count < assets.count %}
+      {% set assetCounter %}{{assetCounter}}0{% endset %}
+      {% call traverseAll assets assetCounter  colorArray imageArray %}
+    {% else %}
+      最終圈e
+    {% endif %}
+  {% endif %}
+{% endmacro %} 
+{% if catalogs %}
+  {% call traverseAll catalogs.first.assets assetCounter colorArray imageArray %}
+{% endif %}
+
+
+
+{% set tempArrayString %}{{"a|b|c|e"}}{% endset %}
+{{tempArrayString}}
+{% macro append toArray item %}
+{% for temp in toArray|split:"|" %}
+  {% if temp == item %}
+    {% break %}
+  {% endif %}
+  {% if forloop.last %}
+    {% set toArray %}{{toArray}}|{{item}}{% endset %}
+    {{toArray}}
+  {% endif %}
+{% endfor %}
+{% endmacro %}
+{% call append tempArrayString "g" %}

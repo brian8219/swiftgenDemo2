@@ -1,0 +1,5 @@
+xcassets:
+  inputs: swiftgenDemo2/Assets.xcassets
+  outputs:
+    - templatePath: Pods/SwiftGen/my-swift4.stencil
+      output: swiftgenDemo2/Assets.swift

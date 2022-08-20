@@ -1,0 +1,99 @@
+{% set assetCounter %}{{""}}{% endset %}
+{% set firstCounter %}{{""}}{% endset %}
+{% set secondCounter %}{{""}}{% endset %}
+{% set properArray %}{{""}}{% endset %}
+{% set colorArray %}{{""}}{% endset %}
+{% set imageArray %}{{""}}{% endset %}
+1.45
+{#
+#}
+{#🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴#}
+{% macro appendColor colorFolder firstCounter secondCounter colorArray imageArray %}
+{% for temp in colorArray|split:"|" %}
+  {% if temp == colorFolder.items[firstCounter.count].name %}
+  {% set firstCounter %}{{firstCounter}}0{% endset %}
+  {% if firstCounter.count <= colorFolder.items.count %} 
+  {% call appendColor colorFolder firstCounter secondCounter colorArray imageArray%}
+  {% else %}
+  {{colorArray}}
+  {% set firstCounter %}{{""}}{% endset %}
+  {% set secondCounter %}{{secondCounter}}0{% endset %}
+  {% call traverseStyledItem catalogs.first.assets firstCounter secondCounter colorArray imageArray %}
+  {% endif %} 
+  {% break %}
+  {% endif %}
+  {% if forloop.last %}
+    {% set colorArray %}{{colorArray}}|{{colorFolder.items[firstCounter.count].name}}{% endset %} 
+    {% set firstCounter %}{{firstCounter}}0{% endset %}
+    {% if firstCounter.count <= colorFolder.items.count %} 
+      {% call appendColor colorFolder firstCounter secondCounter colorArray imageArray%}
+    {% else %}
+    {{colorArray}}
+    {% set firstCounter %}{{""}}{% endset %}
+    {% set secondCounter %}{{secondCounter}}0{% endset %}
+    {% call traverseStyledItem catalogs.first.assets firstCounter secondCounter colorArray imageArray %}
+    {% endif %} 
+  {% endif %}
+{% endfor %}
+{% endmacro %} 
+{#🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴#}
+{#🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡#}
+{% macro appendIcon iconFolder firstCounter secondCounter colorArray imageArray %}
+{% for temp in imageArray|split:"|" %}
+  {% if temp == iconFolder.items[firstCounter.count].name %}
+  {% set firstCounter %}{{firstCounter}}0{% endset %}
+  {% if firstCounter.count <= iconFolder.items.count %} 
+  {% call appendIcon iconFolder firstCounter secondCounter colorArray imageArray%}
+  {% else %}
+  {{imageArray}}
+  {% call traverseStyledItem catalogs.first.assets firstCounter secondCounter colorArray imageArray %}
+  {% set secondCounter %}{{secondCounter}}0{% endset %}
+  {% endif %} 
+  {% break %}
+  {% endif %}
+  {% if forloop.last %}
+    {% set imageArray %}{{imageArray}}|{{iconFolder.items[firstCounter.count].name}}{% endset %} 
+    {% set firstCounter %}{{firstCounter}}0{% endset %}
+    {% if firstCounter.count <= iconFolder.items.count %} 
+      {% call appendIcon iconFolder firstCounter secondCounter colorArray imageArray%}
+    {% else %}
+    {{imageArray}}
+    {% set secondCounter %}{{secondCounter}}0{% endset %}
+    {% call traverseStyledItem catalogs.first.assets firstCounter secondCounter colorArray imageArray %}
+    {% endif %} 
+  {% endif %}
+{% endfor %}
+{% endmacro %} 
+{#🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡#}
+{#🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢#}
+{% macro traverseStyledItem items firstCounter secondCounter colorArray imageArray %}
+{% if secondCounter.count < items.count %}
+  {% if items[secondCounter.count].name == "colors" %}
+    {%call appendColor items[secondCounter.count] firstCounter secondCounter colorArray imageArray%}
+  {% elif items[secondCounter.count].name == "icons" %}
+    {%call appendIcon  items[secondCounter.count] firstCounter secondCounter colorArray imageArray%}
+  {% endif%}
+{% endif%}
+{% endmacro %} 
+{#🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢#}
+{% if catalogs %}
+  {% call traverseStyledItem catalogs.first.assets firstCounter secondCounter colorArray imageArray %}
+{% endif %}
+{# {% set tempArrayString %}{{"a|b|c|e"}}{% endset %} #}
+{# {{tempArrayString}} #}
+{# {% macro append toArray item %} #}
+{# {% for temp in toArray|split:"|" %} #}
+  {# {% if temp == item %} #}
+    {# {% break %} #}
+  {# {% endif %} #}
+  {# {% if forloop.last %} #}
+    {# {% set toArray %}{{toArray}}|{{item}}{% endset %} #}
+    {# {{toArray}} #}
+  {# {% endif %} #}
+{# {% endfor %} #}
+{# {% endmacro %} #}
+{# {% call append tempArrayString "g" %} #}
+
+
+
+🔴🟡🟢🔵🟣⚫️⚪️
