@@ -4,7 +4,7 @@
 {% set properArray %}{{""}}{% endset %}
 {% set colorArray %}{{""}}{% endset %}
 {% set imageArray %}{{""}}{% endset %}
-1.45
+1.46
 {#
 #}
 {#🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴#}
@@ -18,8 +18,8 @@
   {{colorArray}}
   {% set firstCounter %}{{""}}{% endset %}
   {% set secondCounter %}{{secondCounter}}0{% endset %}
-  {% call traverseStyledItem catalogs.first.assets firstCounter secondCounter colorArray imageArray %}
-  {% endif %} 
+    {% call traverseStyledItem catalogs.first.assets[0].items firstCounter secondCounter colorArray imageArray %}
+  {% endif %}
   {% break %}
   {% endif %}
   {% if forloop.last %}
@@ -31,8 +31,8 @@
     {{colorArray}}
     {% set firstCounter %}{{""}}{% endset %}
     {% set secondCounter %}{{secondCounter}}0{% endset %}
-    {% call traverseStyledItem catalogs.first.assets firstCounter secondCounter colorArray imageArray %}
-    {% endif %} 
+      {% call traverseStyledItem catalogs.first.assets[0].items firstCounter secondCounter colorArray imageArray %}
+    {% endif %}
   {% endif %}
 {% endfor %}
 {% endmacro %} 
@@ -46,7 +46,7 @@
   {% call appendIcon iconFolder firstCounter secondCounter colorArray imageArray%}
   {% else %}
   {{imageArray}}
-  {% call traverseStyledItem catalogs.first.assets firstCounter secondCounter colorArray imageArray %}
+    {% call traverseStyledItem catalogs.first.assets[0].items firstCounter secondCounter colorArray imageArray %}
   {% set secondCounter %}{{secondCounter}}0{% endset %}
   {% endif %} 
   {% break %}
@@ -59,7 +59,7 @@
     {% else %}
     {{imageArray}}
     {% set secondCounter %}{{secondCounter}}0{% endset %}
-    {% call traverseStyledItem catalogs.first.assets firstCounter secondCounter colorArray imageArray %}
+      {% call traverseStyledItem catalogs.first.assets[0].items firstCounter secondCounter colorArray imageArray %}
     {% endif %} 
   {% endif %}
 {% endfor %}
@@ -76,9 +76,11 @@
 {% endif%}
 {% endmacro %} 
 {#🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢#}
+{#⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️#}
 {% if catalogs %}
-  {% call traverseStyledItem catalogs.first.assets firstCounter secondCounter colorArray imageArray %}
+  {% call traverseStyledItem catalogs.first.assets[0].items firstCounter secondCounter colorArray imageArray %}
 {% endif %}
+{#⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️#}
 {# {% set tempArrayString %}{{"a|b|c|e"}}{% endset %} #}
 {# {{tempArrayString}} #}
 {# {% macro append toArray item %} #}
@@ -96,4 +98,4 @@
 
 
 
-🔴🟡🟢🔵🟣⚫️⚪️
+{#🔴🟡🟢🔵🟣⚫️⚪️#}

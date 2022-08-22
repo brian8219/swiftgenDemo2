@@ -1,8 +1,7 @@
 
-1.45
+1.46
     |ColorA|ColorB|ColorC|
     |IconA|IconB|IconC|
 
 
 
-🔴🟡🟢🔵🟣⚫️⚪️
