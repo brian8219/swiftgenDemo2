@@ -3,20 +3,19 @@
 {% set assetsFoldersCounter %}{{""}}{% endset %}
 {% set colorArray %}{{""}}{% endset %}
 {% set imageArray %}{{""}}{% endset %}
-1.73
+1.81
 {#🔴🔴🔴🔴🔴appendColor🔴🔴🔴🔴🔴#}
   {% macro appendColor  parentFolder colorFolder styledItemsCounter brandFoldersCounter colorArray imageArray %}
   {% if styledItemsCounter.count >= colorFolder.items.count %} 
-  {{colorArray}}
   {% set styledItemsCounter %}{{""}}{% endset %}
   {% set brandFoldersCounter %}{{brandFoldersCounter}}0{% endset %}
-  {% call traverseStyledItem parentFolder styledItemsCounter brandFoldersCounter colorArray imageArray %} {#🟢🟢#}
+  {% call traverseStyledItem parentFolder styledItemsCounter brandFoldersCounter colorArray imageArray %} 
   {% else %}
   {% for temp in colorArray|split:"|" %}
   {% if temp == colorFolder.items[styledItemsCounter.count].name %}
   {% set styledItemsCounter %}{{styledItemsCounter}}0{% endset %}
   {% if styledItemsCounter.count <= colorFolder.items.count %} 
-  {% call appendColor parentFolder colorFolder styledItemsCounter brandFoldersCounter colorArray imageArray%} {#🔴🔴#}
+  {% call appendColor parentFolder colorFolder styledItemsCounter brandFoldersCounter colorArray imageArray%} 
         {% endif %}
         {% break %}
       {% endif %}
@@ -24,7 +23,7 @@
         {% set colorArray %}{{colorArray}}|{{colorFolder.items[styledItemsCounter.count].name}}{% endset %} 
         {% set styledItemsCounter %}{{styledItemsCounter}}0{% endset %}
           {% if styledItemsCounter.count <= colorFolder.items.count %} 
-            {% call appendColor parentFolder colorFolder styledItemsCounter brandFoldersCounter colorArray imageArray%} {#🔴🔴#}
+            {% call appendColor parentFolder colorFolder styledItemsCounter brandFoldersCounter colorArray imageArray%} 
           {% endif %}
       {% endif %}
     {% endfor %}
@@ -39,8 +38,7 @@
       {% if styledItemsCounter.count <= iconFolder.items.count %} 
       {% call appendIcon parentFolder iconFolder  styledItemsCounter brandFoldersCounter colorArray imageArray%} {#🟡🟡#}
       {% else %}
-  {{imageArray}}
-        {% call traverseStyledItem parentFolder styledItemsCounter brandFoldersCounter colorArray imageArray %} {#🟢🟢#}
+          {% call traverseStyledItem parentFolder styledItemsCounter brandFoldersCounter colorArray imageArray %} 
       {% set brandFoldersCounter %}{{brandFoldersCounter}}0{% endset %}
       {% endif %} 
       {% break %}
@@ -51,9 +49,10 @@
         {% if styledItemsCounter.count <= iconFolder.items.count %} 
           {% call appendIcon parentFolder iconFolder styledItemsCounter brandFoldersCounter colorArray imageArray%} {#🟡🟡#}
         {% else %}
-  {{imageArray}}
         {% set brandFoldersCounter %}{{brandFoldersCounter}}0{% endset %}
-          {% call traverseStyledItem parentFolder styledItemsCounter brandFoldersCounter colorArray imageArray %} {#🟢🟢#}
+        {% set styledItemsCounter %}{{""}}{% endset %}
+
+          {% call traverseStyledItem parentFolder styledItemsCounter brandFoldersCounter colorArray imageArray %} 
         {% endif %} 
       {% endif %}
     {% endfor %}
@@ -61,25 +60,35 @@
 {#🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡#}
 {#🟢🟢🟢🟢traverseStyledItem🟢🟢🟢🟢#}
   {% macro traverseStyledItem items styledItemsCounter brandFoldersCounter colorArray imageArray %}
-    {% if brandFoldersCounter.count < items.count %}
-      {% if items[brandFoldersCounter.count].name == "colors" %}
-        {%call appendColor items items[brandFoldersCounter.count] styledItemsCounter brandFoldersCounter colorArray imageArray%} {#🔴🔴#}
-      {% elif items[brandFoldersCounter.count].name == "icons" %}
-        {%call appendIcon items items[brandFoldersCounter.count] styledItemsCounter brandFoldersCounter colorArray imageArray%} {#🟡🟡#}
-      {% endif%}
-    {% endif %}
+      {% if brandFoldersCounter.count >= items.items.count %} 
+        {% set brandFoldersCounter %}{{""}}{% endset %}
+          {% set assetsFoldersCounter %}{{assetsFoldersCounter}}0{% endset %}
+          {% call traverseFolders catalogs.first.assets assetsFoldersCounter styledItemsCounter brandFoldersCounter colorArray imageArray %} {#🔵🔵#}
+      {% else %}
+          {% if items.items[brandFoldersCounter.count].name == "colors" %}
+              {% call appendColor items items.items[brandFoldersCounter.count] styledItemsCounter brandFoldersCounter colorArray imageArray%} 
+          {% elif items.items[brandFoldersCounter.count].name == "icons" %}
+              {%call appendIcon items items.items[brandFoldersCounter.count] styledItemsCounter brandFoldersCounter colorArray imageArray%} {#🟡🟡#}
+          {% endif%}
+      {% endif %}
   {% endmacro %} 
 {#🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢#}
 {#🔵🔵🔵🔵traverseFolders🔵🔵🔵🔵#}
-{% macro traverseFolders items styledItemsCounter brandFoldersCounter colorArray imageArray %}
-{% for item in items %}
-  {% call traverseStyledItem item.items styledItemsCounter brandFoldersCounter colorArray imageArray %} {#🟢🟢#}
-{% endfor %}
+{% macro traverseFolders items assetsFoldersCounter styledItemsCounter brandFoldersCounter colorArray imageArray %}
+{% if assetsFoldersCounter.count >= items.count %}
+    結束
+    {{colorArray}}
+    {{imageArray}}
+{% else %}
+    {% call traverseStyledItem items[assetsFoldersCounter.count] styledItemsCounter brandFoldersCounter colorArray imageArray %} 
+{% endif %}
+
 {% endmacro %} 
 {#🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵#}
 {#⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️#}
 {% if catalogs %}
-  {% call traverseFolders catalogs.first.assets styledItemsCounter brandFoldersCounter colorArray imageArray %} {#🔵🔵#}
+    {% call traverseFolders catalogs.first.assets assetsFoldersCounter styledItemsCounter brandFoldersCounter colorArray imageArray %} {#🔵🔵#}
 {% endif %}
 {#⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️#}
+
 {#🔴🟡🟢🔵🟣⚫️⚪️#}

@@ -1,0 +1,12 @@
+<svg data-name="xxxx_ChevronUpSmall_Solid" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <clipPath id="a">
+            <path style="fill:none" d="M0 0h24v24H0z"/>
+        </clipPath>
+    </defs>
+    <g data-name="xxxx_ChevronUpSmall_Solid">
+        <g data-name="Group 1225" transform="rotate(-90 12 12)" style="clip-path:url(#a)">
+            <path data-name="Path 708" d="M10.471 7.725 9.058 9.142l2.878 2.869-2.839 2.846 1.417 1.417 4.251-4.263z"/>
+        </g>
+    </g>
+</svg>
