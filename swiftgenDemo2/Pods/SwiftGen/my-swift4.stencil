@@ -3,7 +3,7 @@
 {% set assetsFoldersCounter %}{{""}}{% endset %}
 {% set colorArray %}{{""}}{% endset %}
 {% set imageArray %}{{""}}{% endset %}
-1.81
+1.82
 {#🔴🔴🔴🔴🔴appendColor🔴🔴🔴🔴🔴#}
   {% macro appendColor  parentFolder colorFolder styledItemsCounter brandFoldersCounter colorArray imageArray %}
   {% if styledItemsCounter.count >= colorFolder.items.count %} 
@@ -31,32 +31,30 @@
   {% endmacro %} 
 {#🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴#}
 {#🟡🟡🟡🟡🟡appendIcon🟡🟡🟡🟡🟡#}
-  {% macro appendIcon parentFolder iconFolder styledItemsCounter brandFoldersCounter colorArray imageArray %}
-    {% for temp in imageArray|split:"|" %}
-      {% if temp == iconFolder.items[styledItemsCounter.count].name %}
-      {% set styledItemsCounter %}{{styledItemsCounter}}0{% endset %}
-      {% if styledItemsCounter.count <= iconFolder.items.count %} 
-      {% call appendIcon parentFolder iconFolder  styledItemsCounter brandFoldersCounter colorArray imageArray%} {#🟡🟡#}
-      {% else %}
-          {% call traverseStyledItem parentFolder styledItemsCounter brandFoldersCounter colorArray imageArray %} 
-      {% set brandFoldersCounter %}{{brandFoldersCounter}}0{% endset %}
-      {% endif %} 
+{% macro appendIcon  parentFolder colorFolder styledItemsCounter brandFoldersCounter colorArray imageArray %}
+{% if styledItemsCounter.count >= colorFolder.items.count %} 
+{% set styledItemsCounter %}{{""}}{% endset %}
+{% set brandFoldersCounter %}{{brandFoldersCounter}}0{% endset %}
+{% call traverseStyledItem parentFolder styledItemsCounter brandFoldersCounter colorArray imageArray %} 
+{% else %}
+{% for temp in imageArray|split:"|" %}
+{% if temp == colorFolder.items[styledItemsCounter.count].name %}
+{% set styledItemsCounter %}{{styledItemsCounter}}0{% endset %}
+{% if styledItemsCounter.count <= colorFolder.items.count %} 
+{% call appendIcon parentFolder colorFolder styledItemsCounter brandFoldersCounter colorArray imageArray%} 
+      {% endif %}
       {% break %}
-      {% endif %}
-      {% if forloop.last %}
-        {% set imageArray %}{{imageArray}}|{{iconFolder.items[styledItemsCounter.count].name}}{% endset %} 
-        {% set styledItemsCounter %}{{styledItemsCounter}}0{% endset %}
-        {% if styledItemsCounter.count <= iconFolder.items.count %} 
-          {% call appendIcon parentFolder iconFolder styledItemsCounter brandFoldersCounter colorArray imageArray%} {#🟡🟡#}
-        {% else %}
-        {% set brandFoldersCounter %}{{brandFoldersCounter}}0{% endset %}
-        {% set styledItemsCounter %}{{""}}{% endset %}
-
-          {% call traverseStyledItem parentFolder styledItemsCounter brandFoldersCounter colorArray imageArray %} 
-        {% endif %} 
-      {% endif %}
-    {% endfor %}
-  {% endmacro %} 
+    {% endif %}
+    {% if forloop.last %}
+      {% set imageArray %}{{imageArray}}|{{colorFolder.items[styledItemsCounter.count].name}}{% endset %} 
+      {% set styledItemsCounter %}{{styledItemsCounter}}0{% endset %}
+        {% if styledItemsCounter.count <= colorFolder.items.count %} 
+          {% call appendIcon parentFolder colorFolder styledItemsCounter brandFoldersCounter colorArray imageArray%} 
+        {% endif %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% endmacro %} 
 {#🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡#}
 {#🟢🟢🟢🟢traverseStyledItem🟢🟢🟢🟢#}
   {% macro traverseStyledItem items styledItemsCounter brandFoldersCounter colorArray imageArray %}
