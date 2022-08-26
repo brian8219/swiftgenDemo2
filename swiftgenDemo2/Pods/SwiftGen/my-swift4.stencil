@@ -3,7 +3,9 @@
 {% set assetsFoldersCounter %}{{""}}{% endset %}
 {% set colorArray %}{{""}}{% endset %}
 {% set imageArray %}{{""}}{% endset %}
-1.91
+1.96
+import UIKit
+import SpaceFramework
 {#🔴🔴🔴🔴🔴appendColor🔴🔴🔴🔴🔴#}
   {% macro appendColor  parentFolder colorFolder styledItemsCounter brandFoldersCounter colorArray imageArray %}
   {% if styledItemsCounter.count >= colorFolder.items.count %} 
@@ -73,37 +75,63 @@
 {#🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢#}
 {#🟣🟣🟣🟣traverseNonStyledItem🟣🟣🟣🟣#}
   {% macro traverseNonStyledItem items styledItemsCounter brandFoldersCounter colorArray imageArray %}
-enum SFIcon {
+    enum SFIcon {
     {% for item in items.items %}
-    enum {{item.name}}
+      public static let {{item.name}}
       {% endfor %}
 }
 {% set assetsFoldersCounter %}{{assetsFoldersCounter}}0{% endset %}
 {% call traverseFolders catalogs.first.assets assetsFoldersCounter styledItemsCounter brandFoldersCounter colorArray imageArray %} {#🔵🔵#}
 {% endmacro %} 
 {#🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣#}
+{#⚪️⚪️⚪️⚪️createStyledItemsEnum⚪️⚪️⚪️⚪️#}
+{% macro createStyledItemsEnum colorArray imageArray %}
+
+{% for color in colorArray|split:"|" %}
+  {% if forloop.first %}
+  {% else %}
+    static public let {{color}}
+  {% endif%}
+{% endfor %}
+{% for image in imageArray|split:"|" %}
+  {% if forloop.first %}
+  {% else %}
+    static public let {{image}}
+  {% endif%}
+  {% endfor %}
+{% endmacro %} 
+{#⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️#}
+
+
 {#🔵🔵🔵🔵traverseFolders🔵🔵🔵🔵#}
 {% macro traverseFolders items assetsFoldersCounter styledItemsCounter brandFoldersCounter colorArray imageArray %}
-{% if assetsFoldersCounter.count >= items.count %}
-    {{colorArray}}
-    {{imageArray}}
-{% else %}
-  {% if items[assetsFoldersCounter.count].type == "image"%}
-
-  {% else%}
-    {% if items[assetsFoldersCounter.count].name == "SFIcon" %}
-      {% call traverseNonStyledItem items[assetsFoldersCounter.count] styledItemsCounter brandFoldersCounter colorArray imageArray %} 
+    {% if assetsFoldersCounter.count >= items.count %}
+        {% call createStyledItemsEnum colorArray imageArray%}
     {% else %}
-      {% call traverseStyledItem items[assetsFoldersCounter.count] styledItemsCounter brandFoldersCounter colorArray imageArray %} 
+        {% if items[assetsFoldersCounter.count].type == "image" %}
+    public static let {{items[assetsFoldersCounter.count].name}} = 這裡要call function
+            {% set assetsFoldersCounter %}{{assetsFoldersCounter}}0{% endset %}
+            {% call traverseFolders catalogs.first.assets assetsFoldersCounter styledItemsCounter brandFoldersCounter colorArray imageArray %} {#🔵🔵#}
+        {% elif items[assetsFoldersCounter.count].type == "color" %}
+    public static let {{items[assetsFoldersCounter.count].name}} = 這裡要call function
+            {% set assetsFoldersCounter %}{{assetsFoldersCounter}}0{% endset %}
+            {% call traverseFolders catalogs.first.assets assetsFoldersCounter styledItemsCounter brandFoldersCounter colorArray imageArray %} {#🔵🔵#}
+        {% else %}
+            {% if items[assetsFoldersCounter.count].name == "SFIcon" %}
+                {% call traverseNonStyledItem items[assetsFoldersCounter.count] styledItemsCounter brandFoldersCounter colorArray imageArray %} 
+            {% else %}
+                {% call traverseStyledItem items[assetsFoldersCounter.count] styledItemsCounter brandFoldersCounter colorArray imageArray %} 
+            {% endif %}
+        {% endif %}
     {% endif %}
-{% endif %}
-{% endif %}
 {% endmacro %} 
 {#🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵#}
 {#⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️#}
 {% if catalogs %}
+enum Asset {
     {% call traverseFolders catalogs.first.assets assetsFoldersCounter styledItemsCounter brandFoldersCounter colorArray imageArray %} {#🔵🔵#}
 {% endif %}
+}
 {#⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️#}
 
 {#🔴🟡🟢🔵🟣⚫️⚪️#}
