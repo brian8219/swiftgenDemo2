@@ -1,11 +1,55 @@
 
-1.56
-
-
-
-    |ColorA|ColorB|ColorC|
-    |IconA|IconB|IconC|
-
-
-
-
+import UIKit
+public enum Asset {
+    public static let Header_Brands_Icon = UIImage(nonStyledName: "Header_Brands_Icon")        
+    public static let UpArrow_Outline = UIImage(nonStyledName: "UpArrow_Outline")        
+    public static let lightishBlue = UIColor(styledName: "lightishBlue")
+    public enum SFIcon {
+      public static let _0001CloseSmallOutline = UIImage(sfIcon: "0001_CloseSmall_Outline")
+      public static let _0001CloseSmallSolid = UIImage(sfIcon: "0001_CloseSmall_Solid")
+      public static let _0001CloseXSmallOutline = UIImage(sfIcon: "0001_CloseXSmall_Outline")
+      public static let _0001CloseXSmallSolid = UIImage(sfIcon: "0001_CloseXSmall_Solid")
+      public static let _0001CloseOutline = UIImage(sfIcon: "0001_Close_Outline")
+      public static let _0001CloseSolid = UIImage(sfIcon: "0001_Close_Solid")
+}
+    static public let Green1 = UIColor(styledName: "green1")
+    static public let Green2 = UIColor(styledName: "green2")
+    static public let Grey1 = UIColor(styledName: "grey1")
+    static public let Grey1dark = UIColor(styledName: "grey1dark")
+    static public let Orange1 = UIColor(styledName: "orange1")
+    static public let Orange2 = UIColor(styledName: "orange2")
+    static public let Primary1 = UIColor(styledName: "primary1")
+    static public let Primary1alpha10 = UIColor(styledName: "primary1alpha10")
+    static public let Primary1alpha20 = UIColor(styledName: "primary1alpha20")
+    static public let Primary1alpha30 = UIColor(styledName: "primary1alpha30")
+    static public let Primary1alpha40 = UIColor(styledName: "primary1alpha40")
+    static public let Primary1alpha50 = UIColor(styledName: "primary1alpha50")
+    static public let Primary1dark = UIColor(styledName: "primary1dark")
+    static public let Primary1hover = UIColor(styledName: "primary1hover")
+    static public let Primary2 = UIColor(styledName: "primary2")
+    static public let Primary3 = UIColor(styledName: "primary3")
+    static public let Red1 = UIColor(styledName: "red1")
+    static public let Red2 = UIColor(styledName: "red2")
+    static public let Secondary1 = UIColor(styledName: "secondary1")
+    static public let Secondary10 = UIColor(styledName: "secondary10")
+    static public let Secondary2 = UIColor(styledName: "secondary2")
+    static public let Secondary3 = UIColor(styledName: "secondary3")
+    static public let Secondary4 = UIColor(styledName: "secondary4")
+    static public let Secondary5 = UIColor(styledName: "secondary5")
+    static public let Secondary6 = UIColor(styledName: "secondary6")
+    static public let Secondary7 = UIColor(styledName: "secondary7")
+    static public let Secondary8 = UIColor(styledName: "secondary8")
+    static public let Secondary9 = UIColor(styledName: "secondary9")
+    static public let Tertiary1 = UIColor(styledName: "tertiary1")
+    static public let Tertiary1dark = UIColor(styledName: "tertiary1dark")
+    static public let Tertiary2 = UIColor(styledName: "tertiary2")
+    static public let Tertiary2dark = UIColor(styledName: "tertiary2dark")
+    static public let BrandLogo = UIImage(styledName: "Brand_Logo")
+    static public let CarlineSmallLight = UIImage(styledName: "Carline_Small_Light")
+    static public let Certificate = UIImage(styledName: "Certificate")
+    static public let CloseNative = UIImage(styledName: "Close_Native")
+    static public let DriverDoor = UIImage(styledName: "Driver_door")
+    static public let NegativeSignSolid = UIImage(styledName: "Negative_Sign_Solid")
+    static public let PlusSolid = UIImage(styledName: "Plus_Solid")
+    static public let Windshield = UIImage(styledName: "Windshield")
+}

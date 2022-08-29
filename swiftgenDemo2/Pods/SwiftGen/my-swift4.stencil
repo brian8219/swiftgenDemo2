@@ -3,135 +3,115 @@
 {% set assetsFoldersCounter %}{{""}}{% endset %}
 {% set colorArray %}{{""}}{% endset %}
 {% set imageArray %}{{""}}{% endset %}
-1.96
 import UIKit
-import SpaceFramework
-{#🔴🔴🔴🔴🔴appendColor🔴🔴🔴🔴🔴#}
   {% macro appendColor  parentFolder colorFolder styledItemsCounter brandFoldersCounter colorArray imageArray %}
-  {% if styledItemsCounter.count >= colorFolder.items.count %} 
+  {% if styledItemsCounter.count >= colorFolder.items.count %}
   {% set styledItemsCounter %}{{""}}{% endset %}
   {% set brandFoldersCounter %}{{brandFoldersCounter}}0{% endset %}
-  {% call traverseStyledItem parentFolder styledItemsCounter brandFoldersCounter colorArray imageArray %} 
+  {% call traverseStyledItem parentFolder styledItemsCounter brandFoldersCounter colorArray imageArray %}
   {% else %}
   {% for temp in colorArray|split:"|" %}
   {% if temp == colorFolder.items[styledItemsCounter.count].name %}
   {% set styledItemsCounter %}{{styledItemsCounter}}0{% endset %}
-  {% if styledItemsCounter.count <= colorFolder.items.count %} 
-  {% call appendColor parentFolder colorFolder styledItemsCounter brandFoldersCounter colorArray imageArray%} 
+  {% if styledItemsCounter.count <= colorFolder.items.count %}
+  {% call appendColor parentFolder colorFolder styledItemsCounter brandFoldersCounter colorArray imageArray%}
         {% endif %}
         {% break %}
       {% endif %}
       {% if forloop.last %}
-        {% set colorArray %}{{colorArray}}|{{colorFolder.items[styledItemsCounter.count].name}}{% endset %} 
+        {% set colorArray %}{{colorArray}}|{{colorFolder.items[styledItemsCounter.count].name}}{% endset %}
         {% set styledItemsCounter %}{{styledItemsCounter}}0{% endset %}
-          {% if styledItemsCounter.count <= colorFolder.items.count %} 
-            {% call appendColor parentFolder colorFolder styledItemsCounter brandFoldersCounter colorArray imageArray%} 
+          {% if styledItemsCounter.count <= colorFolder.items.count %}
+            {% call appendColor parentFolder colorFolder styledItemsCounter brandFoldersCounter colorArray imageArray%}
           {% endif %}
       {% endif %}
     {% endfor %}
   {% endif %}
-  {% endmacro %} 
-{#🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴#}
-{#🟡🟡🟡🟡🟡appendIcon🟡🟡🟡🟡🟡#}
+  {% endmacro %}
   {% macro appendIcon  parentFolder colorFolder styledItemsCounter brandFoldersCounter colorArray imageArray %}
-  {% if styledItemsCounter.count >= colorFolder.items.count %} 
+  {% if styledItemsCounter.count >= colorFolder.items.count %}
   {% set styledItemsCounter %}{{""}}{% endset %}
   {% set brandFoldersCounter %}{{brandFoldersCounter}}0{% endset %}
-  {% call traverseStyledItem parentFolder styledItemsCounter brandFoldersCounter colorArray imageArray %} 
+  {% call traverseStyledItem parentFolder styledItemsCounter brandFoldersCounter colorArray imageArray %}
   {% else %}
   {% for temp in imageArray|split:"|" %}
   {% if temp == colorFolder.items[styledItemsCounter.count].name %}
   {% set styledItemsCounter %}{{styledItemsCounter}}0{% endset %}
-  {% if styledItemsCounter.count <= colorFolder.items.count %} 
-  {% call appendIcon parentFolder colorFolder styledItemsCounter brandFoldersCounter colorArray imageArray%} 
+  {% if styledItemsCounter.count <= colorFolder.items.count %}
+  {% call appendIcon parentFolder colorFolder styledItemsCounter brandFoldersCounter colorArray imageArray%}
         {% endif %}
         {% break %}
       {% endif %}
       {% if forloop.last %}
-        {% set imageArray %}{{imageArray}}|{{colorFolder.items[styledItemsCounter.count].name}}{% endset %} 
+        {% set imageArray %}{{imageArray}}|{{colorFolder.items[styledItemsCounter.count].name}}{% endset %}
         {% set styledItemsCounter %}{{styledItemsCounter}}0{% endset %}
-          {% if styledItemsCounter.count <= colorFolder.items.count %} 
-            {% call appendIcon parentFolder colorFolder styledItemsCounter brandFoldersCounter colorArray imageArray%} 
+          {% if styledItemsCounter.count <= colorFolder.items.count %}
+            {% call appendIcon parentFolder colorFolder styledItemsCounter brandFoldersCounter colorArray imageArray%}
           {% endif %}
       {% endif %}
     {% endfor %}
   {% endif %}
-  {% endmacro %} 
-{#🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡#}
-{#🟢🟢🟢🟢traverseStyledItem🟢🟢🟢🟢#}
+  {% endmacro %}
   {% macro traverseStyledItem items styledItemsCounter brandFoldersCounter colorArray imageArray %}
-      {% if brandFoldersCounter.count >= items.items.count %} 
+      {% if brandFoldersCounter.count >= items.items.count %}
         {% set brandFoldersCounter %}{{""}}{% endset %}
           {% set assetsFoldersCounter %}{{assetsFoldersCounter}}0{% endset %}
-          {% call traverseFolders catalogs.first.assets assetsFoldersCounter styledItemsCounter brandFoldersCounter colorArray imageArray %} {#🔵🔵#}
+          {% call traverseFolders catalogs.first.assets assetsFoldersCounter styledItemsCounter brandFoldersCounter colorArray imageArray %}
       {% else %}
           {% if items.items[brandFoldersCounter.count].name == "colors" %}
-              {% call appendColor items items.items[brandFoldersCounter.count] styledItemsCounter brandFoldersCounter colorArray imageArray%} 
+              {% call appendColor items items.items[brandFoldersCounter.count] styledItemsCounter brandFoldersCounter colorArray imageArray%}
           {% elif items.items[brandFoldersCounter.count].name == "icons" %}
-              {%call appendIcon items items.items[brandFoldersCounter.count] styledItemsCounter brandFoldersCounter colorArray imageArray%} {#🟡🟡#}
+              {%call appendIcon items items.items[brandFoldersCounter.count] styledItemsCounter brandFoldersCounter colorArray imageArray%}
           {% endif%}
       {% endif %}
-  {% endmacro %} 
-{#🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢#}
-{#🟣🟣🟣🟣traverseNonStyledItem🟣🟣🟣🟣#}
+  {% endmacro %}
   {% macro traverseNonStyledItem items styledItemsCounter brandFoldersCounter colorArray imageArray %}
-    enum SFIcon {
+    public enum SFIcon {
     {% for item in items.items %}
-      public static let {{item.name}}
+      public static let {{item.name|swiftIdentifier:"pretty"}} = UIImage(sfIcon: "{{item.name}}")
       {% endfor %}
 }
 {% set assetsFoldersCounter %}{{assetsFoldersCounter}}0{% endset %}
-{% call traverseFolders catalogs.first.assets assetsFoldersCounter styledItemsCounter brandFoldersCounter colorArray imageArray %} {#🔵🔵#}
-{% endmacro %} 
-{#🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣🟣#}
-{#⚪️⚪️⚪️⚪️createStyledItemsEnum⚪️⚪️⚪️⚪️#}
+{% call traverseFolders catalogs.first.assets assetsFoldersCounter styledItemsCounter brandFoldersCounter colorArray imageArray %}
+{% endmacro %}
 {% macro createStyledItemsEnum colorArray imageArray %}
-
 {% for color in colorArray|split:"|" %}
   {% if forloop.first %}
   {% else %}
-    static public let {{color}}
+    static public let {{color|swiftIdentifier:"pretty"}} = UIColor(styledName: "{{color}}")
   {% endif%}
 {% endfor %}
 {% for image in imageArray|split:"|" %}
   {% if forloop.first %}
   {% else %}
-    static public let {{image}}
+    static public let {{image|swiftIdentifier:"pretty"}} = UIImage(styledName: "{{image}}")
   {% endif%}
   {% endfor %}
-{% endmacro %} 
-{#⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️#}
-
-
-{#🔵🔵🔵🔵traverseFolders🔵🔵🔵🔵#}
+{% endmacro %}
 {% macro traverseFolders items assetsFoldersCounter styledItemsCounter brandFoldersCounter colorArray imageArray %}
     {% if assetsFoldersCounter.count >= items.count %}
         {% call createStyledItemsEnum colorArray imageArray%}
     {% else %}
         {% if items[assetsFoldersCounter.count].type == "image" %}
-    public static let {{items[assetsFoldersCounter.count].name}} = 這裡要call function
-            {% set assetsFoldersCounter %}{{assetsFoldersCounter}}0{% endset %}
-            {% call traverseFolders catalogs.first.assets assetsFoldersCounter styledItemsCounter brandFoldersCounter colorArray imageArray %} {#🔵🔵#}
+    public static let {{items[assetsFoldersCounter.count].name}} = UIImage(nonStyledName: "{{items[assetsFoldersCounter.count].name}}")
+    
+    {% set assetsFoldersCounter %}{{assetsFoldersCounter}}0{% endset %}
+            {% call traverseFolders catalogs.first.assets assetsFoldersCounter styledItemsCounter brandFoldersCounter colorArray imageArray %}
         {% elif items[assetsFoldersCounter.count].type == "color" %}
-    public static let {{items[assetsFoldersCounter.count].name}} = 這裡要call function
+    public static let {{items[assetsFoldersCounter.count].name}} = UIColor(styledName: "{{items[assetsFoldersCounter.count].name}}")
             {% set assetsFoldersCounter %}{{assetsFoldersCounter}}0{% endset %}
-            {% call traverseFolders catalogs.first.assets assetsFoldersCounter styledItemsCounter brandFoldersCounter colorArray imageArray %} {#🔵🔵#}
+            {% call traverseFolders catalogs.first.assets assetsFoldersCounter styledItemsCounter brandFoldersCounter colorArray imageArray %}
         {% else %}
-            {% if items[assetsFoldersCounter.count].name == "SFIcon" %}
-                {% call traverseNonStyledItem items[assetsFoldersCounter.count] styledItemsCounter brandFoldersCounter colorArray imageArray %} 
+            {% if items[assetsFoldersCounter.count].name == "sfIcon" %}
+                {% call traverseNonStyledItem items[assetsFoldersCounter.count] styledItemsCounter brandFoldersCounter colorArray imageArray %}
             {% else %}
-                {% call traverseStyledItem items[assetsFoldersCounter.count] styledItemsCounter brandFoldersCounter colorArray imageArray %} 
+                {% call traverseStyledItem items[assetsFoldersCounter.count] styledItemsCounter brandFoldersCounter colorArray imageArray %}
             {% endif %}
         {% endif %}
     {% endif %}
-{% endmacro %} 
-{#🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵#}
-{#⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️#}
+{% endmacro %}
 {% if catalogs %}
-enum Asset {
-    {% call traverseFolders catalogs.first.assets assetsFoldersCounter styledItemsCounter brandFoldersCounter colorArray imageArray %} {#🔵🔵#}
+public enum Asset {
+    {% call traverseFolders catalogs.first.assets assetsFoldersCounter styledItemsCounter brandFoldersCounter colorArray imageArray %}
 {% endif %}
 }
-{#⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️#}
-
-{#🔴🟡🟢🔵🟣⚫️⚪️#}
