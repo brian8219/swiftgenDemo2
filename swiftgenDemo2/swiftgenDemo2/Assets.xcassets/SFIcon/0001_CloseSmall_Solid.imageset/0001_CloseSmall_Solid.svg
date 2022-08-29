@@ -1,0 +1,10 @@
+<svg data-name="0001_CloseSmall_Solid" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <clipPath id="a">
+            <path data-name="0001_CloseSmall_Solid" style="fill:none" d="M0 0h24v24H0z"/>
+        </clipPath>
+    </defs>
+    <g data-name="Group 1204" style="clip-path:url(#a)">
+        <path data-name="Path 693" d="m19.2 6.4-5.711 5.707L7.786 6.4 6 8.182l5.711 5.707L6 19.6l1.786 1.778 5.708-5.707 5.706 5.707 1.782-1.778-5.708-5.711 5.708-5.707z" transform="translate(-1.5 -1.6)" style="fill-rule:evenodd"/>
+    </g>
+</svg>

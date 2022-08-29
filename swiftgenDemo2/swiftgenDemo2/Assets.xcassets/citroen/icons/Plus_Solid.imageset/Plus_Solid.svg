@@ -1,0 +1,10 @@
+<svg data-name="0021_Plus_Solid" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+    <defs>
+        <clipPath id="j8uc4ny4za">
+            <path data-name="Rectangle 859" style="opacity:0;fill:#fff" d="M0 0h32v32H0z"/>
+        </clipPath>
+    </defs>
+    <g data-name="Groupe 613" style="clip-path:url(#j8uc4ny4za)">
+        <path data-name="Tracé 192" d="M24.48 16.96h-7.52v7.52h-1.92v-7.52H7.52v-1.92h7.52V7.52h1.92v7.52h7.52z" style="fill:#fff"/>
+    </g>
+</svg>

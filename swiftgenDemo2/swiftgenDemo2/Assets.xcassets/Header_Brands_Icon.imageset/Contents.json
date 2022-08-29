@@ -1,0 +1,15 @@
+{
+  "images" : [
+    {
+      "filename" : "CS_Space_Header_Brands_Icon.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
+  }
+}
